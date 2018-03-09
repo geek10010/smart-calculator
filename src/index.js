@@ -1,26 +1,42 @@
 class SmartCalculator {
   constructor(initialValue) {
-    // your implementation
+    this.expression = +initialValue.toString();
   }
 
   add(number) {
-    // your implementation
+    this.expression += " + " + +number;
+    return this;
   }
   
   subtract(number) {
-    // your implementation
+    this.expression += " - " + +number;
+    return this;
   }
 
   multiply(number) {
-    // your implementation
+    this.expression += " * " + +number;
+    return this;
   }
 
   devide(number) {
-    // your implementation
+    if (number === 0) {
+      return 'Error: zero division!';
+    } else {
+    this.expression += " / " + +number;
+    return this;
+    }
   }
 
   pow(number) {
-    // your implementation
+     this.expression += " ** " + +number;
+     return this;
+  }
+  
+  toString() {
+    //this.result = Math.round(eval(this.expression));
+    //console.log(`${this.expression} = ${this.result}`);
+    //return this.result;
+    return Math.round(eval(this.expression));
   }
 }
 
