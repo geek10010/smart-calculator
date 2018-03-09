@@ -1,6 +1,6 @@
 class SmartCalculator {
   constructor(initialValue) {
-    this.expression = +initialValue.toString();
+    this.expression = +initialValue;
   }
 
   add(number) {
@@ -33,9 +33,6 @@ class SmartCalculator {
   }
   
   toString() {
-    //this.result = Math.round(eval(this.expression));
-    //console.log(`${this.expression} = ${this.result}`);
-    //return this.result;
     return Math.round(eval(this.expression));
   }
 }
