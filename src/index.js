@@ -1,45 +1,42 @@
 class SmartCalculator {
   constructor(initialValue) {
-    this.expr = [+initialValue];
+    this.data = [+initialValue];
   }
 
   add(number) {
-    this.expr.push('+');
-    this.expr.push(+number);
+    this.data.push('+');
+    this.data.push(+number);
     return this;
   }
-  
+
   subtract(number) {
-    this.expr.push('-');
-    this.expr.push(+number);
+    this.data.push('-');
+    this.data.push(+number);
     return this;
   }
 
   multiply(number) {
-    this.expr.push('*');
-    this.expr.push(+number);
+    this.data.push('*');
+    this.data.push(+number);
     return this;
   }
 
   devide(number) {
     if (number === 0) {
       return 'Error: zero division!';
-    } else {
-    this.expr.push('/');
-    this.expr.push(+number);
-    return this;
     }
+    this.data.push('/');
+    this.data.push(+number);
+    return this;
   }
 
   pow(number) {
-     this.expr.push('**');
-     this.expr.push(+number);
-     return this;
+    this.data.push('**');
+    this.data.push(+number);
+    return this;
   }
-  
-  toString() {
-    // console.log(`${this.expr}`);
 
+  toString() {
     const chooseOperation = (a, b = -1) => {
       if (a > 0 && b > 0) {
         return Math.min(a, b);
@@ -49,61 +46,43 @@ class SmartCalculator {
 
     const findOper = (operator1, operator2) => {
       if (operator1 === '**') {
-        return this.expr.lastIndexOf(operator1);
+        return this.data.lastIndexOf(operator1);
       }
 
-      return chooseOperation(this.expr.indexOf(operator1),
-      this.expr.indexOf(operator2));
+      return chooseOperation(this.data.indexOf(operator1),
+        this.data.indexOf(operator2));
     };
 
     const calculate = (position) => {
-      let operation = this.expr[position];
-      let a = this.expr[position - 1];
-      let b = this.expr[position + 1];
+      const operation = this.data[position];
+      const a = this.data[position - 1];
+      const b = this.data[position + 1];
+
       if (operation === '**') return a ** b;
       if (operation === '*') return a * b;
       if (operation === '/') return a / b;
       if (operation === '+') return a + b;
       if (operation === '-') return a - b;
+
+      return null;
     };
 
-    
-    // applyOperators('**');
-    let currentOperatorPosition;
-    currentOperatorPosition = findOper('**');
+    const applyOperators = (operator1, operator2) => {
+      let currentOperPosition = findOper(operator1, operator2);
 
-    while (currentOperatorPosition > 0) {
-      let tempResult = calculate(currentOperatorPosition);
-      this.expr.splice(currentOperatorPosition - 1, 3, tempResult);
-      currentOperatorPosition = findOper('**');
-    }
-
-
-    // applyOperators('*','/');
-    currentOperatorPosition = findOper('*','/');
-
-    while (currentOperatorPosition > 0) {
-      let tempResult = calculate(currentOperatorPosition);
-      this.expr.splice(currentOperatorPosition - 1, 3, tempResult);
-      currentOperatorPosition = findOper('*','/');
-    }
-
-
-    // applyOperators('+','-');
-    currentOperatorPosition = findOper('+','-');
-
-    if (currentOperatorPosition > 0) {
-      while (currentOperatorPosition > 0) {
-        let tempResult = calculate(currentOperatorPosition);
-        this.expr.splice(currentOperatorPosition - 1, 3, tempResult);
-        currentOperatorPosition = findOper('+','-');
+      while (currentOperPosition > 0) {
+        const tempResult = calculate(currentOperPosition);
+        this.data.splice(currentOperPosition - 1, 3, tempResult);
+        currentOperPosition = findOper(operator1, operator2);
       }
-    }
+    };
 
-    // console.log(`result: ${this.expr}`);
+    applyOperators('**');
+    applyOperators('*', '/');
+    applyOperators('+', '-');
 
-    return this.expr[0];
+    return this.data[0];
   }
-};
+}
 
 module.exports = SmartCalculator;
